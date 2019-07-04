@@ -1,0 +1,125 @@
+<!-- 或者也可以加在Blogger的範本中 -->
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+ crossorigin="anonymous">
+
+<div id="checkURL-App" class="container-fluid">
+	<div v-if="loading" id="fill_loading" class="d-flex flex-column justify-content-center align-items-center" :style="styleSheet">
+		Loading...<br>
+		精彩內容即將呈現
+		<br><br>
+		<div class="balls">
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	</div>
+	<div style="text-align: center;padding-top: 20px;">
+		<div>您正被導向至</div>
+		<h1>{{url}}</h1>
+		<div>網站預覽</div>
+		<img :src="previewAPI + url">
+		<div>提供Google安全性報告供您參考</div>
+		<img :src="previewAPI + safeAPI + url">
+		<button @Click="window.open(url,'_blank')" style="border-radius:5px;">GO</button>
+	</div>
+	<div class="alert alert-danger" style="position: fixed;top: 5px;">
+		請注意 當您踏出本網站 即代表您不受本網站的條款保護 若遭受任何病毒危害 入侵 本站概不負責
+	</div>
+	<div v-if="error" class="alert alert-danger" style="position: fixed;padding: 5px;">
+		{{error}}
+	</div>
+</div>
+<script>
+	var checkURLApp = new Vue({
+		el: '#checkURL-App',
+		data: {
+			"loading": true,
+			"styleSheet": {
+				"backgroundColor": "blue",
+				"position": "fixed",
+				"top": "0",
+				"bottom": "0",
+				"right": "0",
+				"left": "0",
+				"width": "100%",
+				"height": "100%",
+				"z-index": "999999"
+			},
+			"url": "",
+			"error":"",
+			"previewAPI": "https://image.thum.io/get/",
+			"safeAPI": "https://transparencyreport.google.com/safe-browsing/search?hl=zh_TW&url="
+		}
+	})
+	setTimeout(function() {
+		checkURLApp.loading = false
+	}, 3000)
+	/* Write URL */
+	//history.pushState({}, "go", "/go.php" + location.search);
+	checkURLApp.url = new URLSearchParams(window.location.search.substr(1)).get("url")
+
+	if (!checkURLApp.url) {
+		checkURLApp.error="未提供正確檢測網址,請確定網址正確性,錯誤: 0x0221,你來自:" + document.referrer
+	}
+	
+	$(() => {
+		$(".sidebar-wrapper").remove()
+		$("h2.post-title.entry-title").hide()
+
+		$(".outer-wrapper").addClass("w-100").addClass("w-100")
+		$(".main-wrapper").addClass("w-100").addClass("w-100")
+		$("#Blog1").addClass("w-100").addClass("w-100")
+		$("#Blog1 > div.blog-posts.hfeed").addClass("w-100").addClass("w-100")
+		$("#Blog1 > div.blog-posts.hfeed.w-100 > div").addClass("w-100")
+		$("#Blog1 > div.blog-posts.hfeed.w-100 > div > div.post.hentry").addClass("w-100")
+		$("#Blog1 > div.blog-posts.hfeed.w-100 > div > div.post.hentry > div ").eq(0).addClass("w-100")
+
+		checkURLApp.loading = false
+
+	})
+
+	
+
+	
+</script>
+
+<style>
+	/* Loading CSS
+	 * Credit to CSSFX.dev
+	 */
+	.balls {
+		width: 3.5em;
+		display: flex;
+		flex-flow: row nowrap;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.balls div {
+		width: 0.8em;
+		height: 0.8em;
+		border-radius: 50%;
+		background-color: #fc2f70;
+		transform: translateY(-100%);
+		animation: wave 0.8s ease-in-out alternate infinite;
+	}
+
+	.balls div:nth-of-type(1) {
+		animation-delay: -0.4s;
+	}
+
+	.balls div:nth-of-type(2) {
+		animation-delay: -0.2s;
+	}
+
+	@keyframes wave {
+		from {
+			transform: translateY(-100%);
+		}
+
+		to {
+			transform: translateY(100%);
+		}
+	}
+</style>

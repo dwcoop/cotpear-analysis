@@ -1,0 +1,26 @@
+{
+	"TW_p_b_s":"淺藍選民",
+	"TW_p_b_m":"湛藍選民",
+	"TW_p_b_l":"深藍選民",
+	"TW_p_g_s":"淺綠選民",
+	"TW_p_g_m":"青綠選民",
+	"TW_p_g_l":"深綠選民",
+	"DEVICE_iOS":"使用 iOS",
+	"DEVICE_Android":"使用 android",
+	"DEVICE_MacOS":"使用 Mac",
+	"DEVICE_Window":"使用 Window"
+	
+}
+
+/*
+TW -> Taiwan
+	p -> politic
+		b -> blue
+			s -> small
+			m -> medium
+			l -> large
+		g -> green
+			s -> small
+			m -> medium
+			l -> large
+*/
