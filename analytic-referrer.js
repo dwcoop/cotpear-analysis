@@ -82,8 +82,7 @@ $(function() {
 				},
 				"fullUrl": new URL(location).toString(),
 				"time": Date.now(),
-				"info": ajaxData,
-				"logType": "click"
+				"info": ajaxData
 			})
 		},
 		method: "POST"
