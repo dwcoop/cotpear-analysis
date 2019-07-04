@@ -27,8 +27,8 @@ var ajaxData = {
 	"event": [{
 		"eventName": "pageView",
 		"eventType": "impression",
-		"data":{
-			"location":new URL(location).toString()
+		"data": {
+			"location": new URL(location).toString()
 		},
 		"dispatchTime": Date.now()
 	}],
@@ -38,9 +38,11 @@ var ajaxData = {
 		"Cotpear_member": (LoginedUser ? JSON.stringify(LoginedUser) : "")
 	}
 }
-function getLocationSearch(){
+
+function getLocationSearch() {
 	return location.search;
 }
+
 function genUUID() {
 	var d = Date.now();
 	if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
@@ -154,8 +156,8 @@ window.addEventListener("hashchange", function() {
 	ajaxData.event.push({
 		"eventName": "hashChange",
 		"eventType": "action",
-		"data":{
-			"hash":location.hash
+		"data": {
+			"hash": location.hash
 		},
 		"dispatchTime": Date.now()
 	})
@@ -168,3 +170,8 @@ window.addEventListener("hashchange", function() {
 		method: "POST"
 	})
 }, false);
+$(document).ajaxError(function(event, request, settings) {
+	console.log(settings.url)
+	console.log(settings.data)
+	
+});
