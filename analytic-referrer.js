@@ -66,69 +66,67 @@ $(function() {
 		method: "POST"
 	})
 	$.ajax({
-			url: postbackEndpoint,
-			data: {
-				type: "logging_url_data",
-				data: JSON.stringify({
-					"deviceID": deviceID,
-					"clickID": urlSearch.get("cpclid"),
-					"clickTimeStamp": urlSearch.get("cpclts"),
-					"clickUUID": urlSearch.get("cpcluid"),
-					"utm": {
-						"source": urlSearch.get("utm_source"),
-						"medium": urlSearch.get("utm_medium"),
-						"term": urlSearch.get("utm_term"),
-						"campaign": urlSearch.get("utm_campaign"),
-						"content": urlSearch.get("utm_content")
-					},
-					"fullUrl": new URL(location).toString(),
-					"time": Date.now(),
-					"info": ajaxData
-				})
-			},
-			method: "POST"
+		url: postbackEndpoint,
+		data: {
+			type: "logging_url_data",
+			data: JSON.stringify({
+				"deviceID": deviceID,
+				"clickID": urlSearch.get("cpclid"),
+				"clickTimeStamp": urlSearch.get("cpclts"),
+				"clickUUID": urlSearch.get("cpcluid"),
+				"utm": {
+					"source": urlSearch.get("utm_source"),
+					"medium": urlSearch.get("utm_medium"),
+					"term": urlSearch.get("utm_term"),
+					"campaign": urlSearch.get("utm_campaign"),
+					"content": urlSearch.get("utm_content")
+				},
+				"fullUrl": new URL(location).toString(),
+				"time": Date.now(),
+				"info": ajaxData
+			})
+		},
+		method: "POST"
+	})
+	var mousePos;
+	document.addEventListener("onmousemove", handleMouseMove)
+
+	function handleMouseMove(event) {
+		var dot, eventDoc, doc, body, pageX, pageY;
+		event = event || window.event; // IE-ism
+		// If pageX/Y aren't available and clientX/Y are,
+		// calculate pageX/Y - logic taken from jQuery.
+		// (This is to support old IE)
+		if (event.pageX == null && event.clientX != null) {
+			eventDoc = (event.target && event.target.ownerDocument) || document;
+			doc = eventDoc.documentElement;
+			body = eventDoc.body;
+
+			event.pageX = event.clientX +
+				(doc && doc.scrollLeft || body && body.scrollLeft || 0) -
+				(doc && doc.clientLeft || body && body.clientLeft || 0);
+			event.pageY = event.clientY +
+				(doc && doc.scrollTop || body && body.scrollTop || 0) -
+				(doc && doc.clientTop || body && body.clientTop || 0);
+		}
+
+		mousePos = {
+			x: event.pageX,
+			y: event.pageY
+		};
+		mousePositionData.push({
+			data: mousePos,
+			detectTime: Data.now()
 		})
-		(function() {
-			var mousePos;
-			document.addEventListener("onmousemove", handleMouseMove)
 
-			function handleMouseMove(event) {
-				var dot, eventDoc, doc, body, pageX, pageY;
-				event = event || window.event; // IE-ism
-				// If pageX/Y aren't available and clientX/Y are,
-				// calculate pageX/Y - logic taken from jQuery.
-				// (This is to support old IE)
-				if (event.pageX == null && event.clientX != null) {
-					eventDoc = (event.target && event.target.ownerDocument) || document;
-					doc = eventDoc.documentElement;
-					body = eventDoc.body;
-
-					event.pageX = event.clientX +
-						(doc && doc.scrollLeft || body && body.scrollLeft || 0) -
-						(doc && doc.clientLeft || body && body.clientLeft || 0);
-					event.pageY = event.clientY +
-						(doc && doc.scrollTop || body && body.scrollTop || 0) -
-						(doc && doc.clientTop || body && body.clientTop || 0);
-				}
-
-				mousePos = {
-					x: event.pageX,
-					y: event.pageY
-				};
-				mousePositionData.push({
-					data: mousePos,
-					detectTime: Data.now()
-				})
-				
-			}
-		})();
-	setTimeout(function(){
+	}
+	setTimeout(function() {
 		//一分鐘瀏覽關卡
 		ajaxData.event.push({
 			"eventName": "pageView",
 			"eventType": "impression",
 			"data": {
-				"timeLevel": "1分鐘" 
+				"timeLevel": "1分鐘"
 			},
 			"dispatchTime": Date.now()
 		})
@@ -140,14 +138,14 @@ $(function() {
 			},
 			method: "POST"
 		})
-	},1000*60)
-	setTimeout(function(){
+	}, 1000 * 60)
+	setTimeout(function() {
 		//五分鐘瀏覽關卡
 		ajaxData.event.push({
 			"eventName": "pageView",
 			"eventType": "impression",
 			"data": {
-				"timeLevel": "5分鐘" 
+				"timeLevel": "5分鐘"
 			},
 			"dispatchTime": Date.now()
 		})
@@ -159,7 +157,7 @@ $(function() {
 			},
 			method: "POST"
 		})
-	},1000*60*5)
+	}, 1000 * 60 * 5)
 })
 
 $.each($("a"), function(i, elem) {
@@ -246,7 +244,7 @@ $(document).ajaxError(function(event, request, settings) {
 	console.log(settings.url)
 	console.log(settings.data)
 });
-$(window).on("beforeunload",function(){
+$(window).on("beforeunload", function() {
 	$.ajax({
 		url: postbackEndpoint,
 		data: {
