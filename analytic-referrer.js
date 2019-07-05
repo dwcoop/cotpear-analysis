@@ -36,7 +36,14 @@ var ajaxData = {
 	"additionalInfo": {
 		"ip": returnCitySN["cip"],
 		"ipRegion": returnCitySN["cname"],
-		"Cotpear_member": (LoginedUser ? JSON.stringify(LoginedUser) : "")
+		"Cotpear_member": (LoginedUser 
+			?({
+				uid:LoginedUser.uid,
+				name:LoginedUser.displayName,
+				email:LoginedUser.email,
+				phone:LoginedUser.phoneNumber
+			}): {}
+		)
 	}
 }
 
