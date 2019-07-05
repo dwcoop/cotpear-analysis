@@ -57,7 +57,6 @@ function genUUID() {
 }
 
 $(function() {
-	efefefeconsoletest()
 	$.ajax({
 		url: postbackEndpoint,
 		data: {
