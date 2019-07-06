@@ -165,6 +165,9 @@ $(function() {
 			method: "POST"
 		})
 	}, 1000 * 60 * 5)
+	var urlTitle=new URL=$(".title > a ").attr("href")
+	urlTitle.searchParams.set("clickPosition","top-logo")
+	$(".title > a ").attr("href",urlTitle.toString())
 })
 
 $.each($("a"), function(i, elem) {
